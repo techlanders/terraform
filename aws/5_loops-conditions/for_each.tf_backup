@@ -1,0 +1,26 @@
+provider "aws" {
+  region = "us-east-2"
+}
+
+variable "server_names" {
+  description = "Create virtual machines with these names"
+  type        = list(string)
+  default     = ["vm1", "vm2"]
+}
+
+resource "aws_instance" "myawsserver" {
+  ami = "ami-0603cbe34fd08cb81"
+  instance_type = "t2.micro"
+  key_name = "test1"
+  for_each = toset(var.server_names)
+  tags = {
+    Name = each.value
+    env = "test"
+  }
+}
+
+output "Private-IP" {
+# As for_each loop is a map, you have to modify the syntax to get the values printed
+ value = values(aws_instance.myawsserver)[*].private_ip
+}
+

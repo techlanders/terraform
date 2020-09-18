@@ -1,0 +1,23 @@
+provider "aws" {
+  region = "us-east-2"
+}
+
+resource "aws_instance" "myawsserver" {
+  ami = "ami-0603cbe34fd08cb81"
+  instance_type = "t2.micro"
+  key_name = "test1"
+  count = 2
+  tags = {
+    Name = "Techlanders-aws-ec2-instance.${count.index}"
+    env = "test"
+  }
+}
+
+output "Private-IP-0" {
+ value = aws_instance.myawsserver.0.private_ip
+}
+
+output "Private-IP-1" {
+ value = aws_instance.myawsserver.1.private_ip
+}
+
