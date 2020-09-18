@@ -1,0 +1,29 @@
+#Azure VM Creation
+resource "azurerm_linux_virtual_machine" "myterraformvm" {
+    name                  = "myVM"
+    location              = "eastus"
+    resource_group_name   = "techlanders-rg"
+    network_interface_ids = ["/subscriptions/18a63478-19db-4208-b4f3-4e007ab700aa/resourceGroups/techlanders-rg/providers/Microsoft.Network/networkInterfaces/nic1"]
+    size                  = "Standard_DS1_v2"
+
+    os_disk {
+        name              = "myOsDisk"
+        caching           = "ReadWrite"
+        storage_account_type = "Premium_LRS"
+    }
+
+    source_image_reference {
+        publisher = "Canonical"
+        offer     = "UbuntuServer"
+        sku       = "16.04.0-LTS"
+        version   = "latest"
+    }
+
+    computer_name  = "myvm"
+    admin_username = "azureuser"
+    admin_password = "Tech@123"
+    disable_password_authentication = "false"
+    tags = {
+        environment = "Terraform Demo"
+    }
+}
