@@ -4,7 +4,7 @@ resource "aws_instance" "myawsserver" {
 
   tags = {
     Name = "Techlanders-aws-ec2-instance"
-    Env = "Prod"
+    Env = "Dev"
   }
 }
 
